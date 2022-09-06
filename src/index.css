@@ -28,6 +28,18 @@ h1 {
   font-size: 3rem;
 }
 
+form {
+
+}
+
+form svg {
+  
+}
+
+form svg:hover {
+  color: green;
+}
+
 ul {
   width: 100%;
   list-style: none;
@@ -62,11 +74,11 @@ ul li::before {
   margin-right: 0.5rem;
 }
 
-.item input[type="checkbox"]:focus + label {
+.item input[type="checkbox"]:focus+label {
   text-decoration: underline;
 }
 
-.item > label {
+.item>label {
   font-size: 0.75rem;
   flex-grow: 1;
 }

@@ -16,7 +16,7 @@ function App() {
     <>
       <Header />
       <Content items={items} setItems={setItems} />
-      <Footer />
+      <Footer length={items.length} />
     </>
   );
 }
