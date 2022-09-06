@@ -8,6 +8,11 @@ const GroceryItem = ({ checked, item, id, items, setItems }) => {
     setItems(listItems);
   };
 
+  const handleDelete = (id) => {
+    const listItems = items.filter((item) => item.id !== id);
+    setItems(listItems);
+  };
+
   return (
     <li className="item">
       <input
@@ -18,7 +23,7 @@ const GroceryItem = ({ checked, item, id, items, setItems }) => {
       <label style={checked ? { textDecoration: "line-through" } : null}>
         {item}
       </label>
-      <FaTrashAlt role="button" tabIndex="0" />
+      <FaTrashAlt role="button" tabIndex="0" onClick={() => handleDelete(id)} />
     </li>
   );
 };
