@@ -2,20 +2,26 @@ import GroceryItem from "./GroceryItem";
 
 const GroceryList = ({ items, setItems }) => {
   return (
-    <ul>
-      {items.map((item) => {
-        return (
-          <GroceryItem
-            key={item.id}
-            checked={item.checked}
-            item={item.item}
-            id={item.id}
-            items={items}
-            setItems={setItems}
-          />
-        );
-      })}
-    </ul>
+    <>
+      {items.length > 0 ? (
+        <ul>
+          {items.map((item) => {
+            return (
+              <GroceryItem
+                key={item.id}
+                checked={item.checked}
+                item={item.item}
+                id={item.id}
+                items={items}
+                setItems={setItems}
+              />
+            );
+          })}
+        </ul>
+      ) : (
+        <p style={{marginTop: "2rem", textAlign: "center"}}>There are currently no items in your grocery list.</p>
+      )}
+    </>
   );
 };
 
