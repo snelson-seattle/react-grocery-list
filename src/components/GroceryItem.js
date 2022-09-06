@@ -15,7 +15,9 @@ const GroceryItem = ({ checked, item, id, items, setItems }) => {
         checked={checked}
         onChange={() => handleCheck(id)}
       />
-      <label>{item}</label>
+      <label style={checked ? { textDecoration: "line-through" } : null}>
+        {item}
+      </label>
       <FaTrashAlt role="button" tabIndex="0" />
     </li>
   );
