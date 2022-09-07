@@ -5,20 +5,54 @@ import Content from "./components/Content";
 import Footer from "./components/Footer";
 
 function App() {
-  const [items, setItems] = useState(
-    JSON.parse(localStorage.getItem("shopping-list")) || []
-  );
+  const API_URL = "http://localhost:3500/api/groceries";
+
+  const [items, setItems] = useState([]);
   const [newItem, setNewItem] = useState("");
+  const [fetchError, setFetchError] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    localStorage.setItem("shopping-list", JSON.stringify(items));
-  }, [items]);
+    const fetchItems = async () => {
+      try {
+        const response = await fetch(API_URL);
+        if (!response.ok) {
+          throw Error("Did not receive expected data.");
+        }
+        const listItems = await response.json();
+        setItems(listItems);
+        setFetchError(null);
+      } catch (error) {
+        console.error(error.message); // remove this console log before production
+        setFetchError(error.message);
+      } finally {
+        setIsLoading(false);
+      }
+    };
 
-  const addItem = (item) => {
-    const id = items.length ? items[items.length - 1].id + 1 : 1;
-    const groceryItem = { id, checked: false, item };
-    const listItems = [...items, groceryItem];
-    setItems(listItems);
+    // create an aysnc IIFE to retrieve items from backend on component load
+    (async () => await fetchItems())();
+  }, []);
+
+  const addItem = async (item) => {
+    const itemObj = { item };
+    try {
+      const response = await fetch(API_URL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(itemObj),
+      });
+      if (!response.ok) {
+        throw Error("Failed to add item.");
+      }
+      const result = await response.json();
+      const listItems = [...items, result];
+      setItems(listItems);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const handleSubmit = (e) => {
@@ -41,7 +75,15 @@ function App() {
         setNewItem={setNewItem}
         handleSubmit={handleSubmit}
       />
-      <Content items={items} setItems={setItems} />
+      <main>
+        {isLoading ? (
+          <p className="loading">Loading Items...</p>
+        ) : fetchError ? (
+          <p className="error">{`Error: ${fetchError}`}</p>
+        ) : (
+          <Content items={items} setItems={setItems} />
+        )}
+      </main>
       <Footer length={items.length} />
     </>
   );

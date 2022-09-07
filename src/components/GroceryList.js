@@ -8,7 +8,7 @@ const GroceryList = ({ items, setItems }) => {
           {items.map((item) => {
             return (
               <GroceryItem
-                key={item.id}
+                key={item._id}
                 item={item}
                 items={items}
                 setItems={setItems}
