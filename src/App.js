@@ -1,20 +1,19 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Header from "./components/Header";
 import AddItemForm from "./components/AddItemForm";
 import Content from "./components/Content";
 import Footer from "./components/Footer";
 
-const dummyData = [
-  { id: 1, checked: false, item: "Eggs" },
-  { id: 2, checked: true, item: "Peanut Butter" },
-  { id: 3, checked: false, item: "Milk" },
-  { id: 4, checked: false, item: "Bread" },
-];
-
 function App() {
-  const [items, setItems] = useState(dummyData);
+  const [items, setItems] = useState(
+    JSON.parse(localStorage.getItem("shopping-list")) || []
+  );
   const [newItem, setNewItem] = useState("");
-  
+
+  useEffect(() => {
+    localStorage.setItem("shopping-list", JSON.stringify(items));
+  }, [items]);
+
   const addItem = (item) => {
     const id = items.length ? items[items.length - 1].id + 1 : 1;
     const groceryItem = { id, checked: false, item };
@@ -24,7 +23,7 @@ function App() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    
+
     // return if no item was entered, (the required input should not allow this to happen)
     if (!newItem) return;
 
