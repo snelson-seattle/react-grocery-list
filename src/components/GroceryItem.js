@@ -1,6 +1,6 @@
 import { FaTrashAlt } from "react-icons/fa";
 
-const GroceryItem = ({ checked, item, id, items, setItems }) => {
+const GroceryItem = ({ item, items, setItems }) => {
   const handleCheck = (id) => {
     const listItems = items.map((item) =>
       item.id === id ? { ...item, checked: !item.checked } : item
@@ -17,13 +17,18 @@ const GroceryItem = ({ checked, item, id, items, setItems }) => {
     <li className="item">
       <input
         type="checkbox"
-        checked={checked}
-        onChange={() => handleCheck(id)}
+        checked={item.checked}
+        onChange={() => handleCheck(item.id)}
       />
-      <label style={checked ? { textDecoration: "line-through" } : null}>
-        {item}
+      <label style={item.checked ? { textDecoration: "line-through" } : null}>
+        {item.item}
       </label>
-      <FaTrashAlt role="button" tabIndex="0" onClick={() => handleDelete(id)} />
+      <FaTrashAlt
+        role="button"
+        tabIndex="0"
+        onClick={() => handleDelete(item.id)}
+        aria-label={`Delete ${item.item}`}
+      />
     </li>
   );
 };

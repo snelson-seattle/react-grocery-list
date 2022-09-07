@@ -9,9 +9,7 @@ const GroceryList = ({ items, setItems }) => {
             return (
               <GroceryItem
                 key={item.id}
-                checked={item.checked}
-                item={item.item}
-                id={item.id}
+                item={item}
                 items={items}
                 setItems={setItems}
               />
@@ -19,7 +17,9 @@ const GroceryList = ({ items, setItems }) => {
           })}
         </ul>
       ) : (
-        <p style={{marginTop: "2rem", textAlign: "center"}}>There are currently no items in your grocery list.</p>
+        <p style={{ marginTop: "2rem", textAlign: "center" }}>
+          There are currently no items in your grocery list.
+        </p>
       )}
     </>
   );
