@@ -24,6 +24,8 @@ function App() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    
+    // return if no item was entered, (the required input should not allow this to happen)
     if (!newItem) return;
 
     // add item
